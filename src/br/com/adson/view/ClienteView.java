@@ -5,7 +5,14 @@
  */
 package br.com.adson.view;
 
+import br.com.adson.controller.ClienteController;
+import br.com.adson.model.Cliente;
 import br.com.adson.util.OperacoesCrud;
+import java.sql.Date;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -14,6 +21,7 @@ import br.com.adson.util.OperacoesCrud;
 public class ClienteView extends javax.swing.JFrame {
 
     public Integer operacao;
+    private String sexo;
     /**
      * Creates new form ClienteView
      */
@@ -21,6 +29,7 @@ public class ClienteView extends javax.swing.JFrame {
         initComponents();
         
         paneBotoesAcoes.setVisible(false);
+        limparCampos();
          
     }
 
@@ -137,8 +146,18 @@ public class ClienteView extends javax.swing.JFrame {
         txtNasci.setEnabled(false);
 
         rbMasculino.setText("Masculino");
+        rbMasculino.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbMasculinoActionPerformed(evt);
+            }
+        });
 
         rbFeminino.setText("Feminino");
+        rbFeminino.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbFemininoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -332,6 +351,7 @@ public class ClienteView extends javax.swing.JFrame {
         
         abrirCampos();
         
+        
     }//GEN-LAST:event_btnNovoActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
@@ -347,6 +367,16 @@ public class ClienteView extends javax.swing.JFrame {
     private void btnAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtualizarActionPerformed
         gravarAtualizarDados();
     }//GEN-LAST:event_btnAtualizarActionPerformed
+
+    private void rbMasculinoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbMasculinoActionPerformed
+        rbFeminino.setSelected(false);
+        sexo = rbMasculino.getText();
+    }//GEN-LAST:event_rbMasculinoActionPerformed
+
+    private void rbFemininoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbFemininoActionPerformed
+        rbMasculino.setSelected(false);
+        sexo = rbFeminino.getText();
+    }//GEN-LAST:event_rbFemininoActionPerformed
 
     
     public static void main(String args[]) {
@@ -412,11 +442,40 @@ public class ClienteView extends javax.swing.JFrame {
 
     private void gravarAtualizarDados() {
         
-        if(operacao == OperacoesCrud.NOVO.getOperacao()) {
+        // recupera os resultados da tela
+        String nome = txtNome.getText();
+        String cpf = txtCpf.getText();
+        String email = txtEmail.getText();
+        Date dateNasc = new Date(txtNasci.getDate().getTime());
+        String fone = txtFone.getText();
+        
+        // atribuindo os dados de tela e para o obj cliente
+        Cliente cliente = new Cliente();
+        cliente.setNome(nome);
+        cliente.setCpf(cpf);
+        cliente.setEmail(email);
+        cliente.setNascimento(dateNasc);
+        cliente.setSexo(formatarCampoSexo(sexo));
+        cliente.setFone(fone);
+        
+        ClienteController clienteController = new ClienteController();
+        
+        try {
             
+
+            if(operacao == OperacoesCrud.NOVO.getOperacao()) {
+                clienteController.cadastrar(cliente);
+                
+                JOptionPane.showMessageDialog(null, "O cliente "  +cliente.getNome() + 
+                        " foi criado com Sucesso!","Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                
+                limparCampos();
             
-        }else if(operacao == OperacoesCrud.EDITAR.getOperacao()) {
+            }else if(operacao == OperacoesCrud.EDITAR.getOperacao()) {
             
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ClienteView.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }
@@ -426,5 +485,24 @@ public class ClienteView extends javax.swing.JFrame {
         txtCpf.setEditable(true);
         txtFone.setEditable(true);
         txtNasci.setEnabled(true);
+    }
+    
+    private void limparCampos() {
+        txtNome.setText("");
+        txtEmail.setText("");
+        txtCpf.setText("");
+        txtFone.setText("");
+        txtNasci.setDate(null);
+        rbFeminino.setSelected(false);
+        rbMasculino.setSelected(false);
+    }
+
+    private String formatarCampoSexo(String sexo) {
+        if(sexo.equals("Masculino")) {
+            sexo = "M";
+        }else {
+            sexo = "F";
+        }
+        return sexo;
     }
 }

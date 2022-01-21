@@ -313,11 +313,17 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Masculino"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rbMasculinoActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JRadioButton" name="rbFeminino">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Feminino"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rbFemininoActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
