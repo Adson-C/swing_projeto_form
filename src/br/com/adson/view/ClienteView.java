@@ -20,7 +20,8 @@ public class ClienteView extends javax.swing.JFrame {
     public ClienteView() {
         initComponents();
         
-        
+        paneBotoesAcoes.setVisible(false);
+         
     }
 
     /**
@@ -110,6 +111,8 @@ public class ClienteView extends javax.swing.JFrame {
 
         jLabel1.setText("Nome:");
 
+        txtNome.setEditable(false);
+
         jLabel2.setText("CPF:");
 
         jLabel3.setText("Email:");
@@ -120,11 +123,18 @@ public class ClienteView extends javax.swing.JFrame {
 
         jLabel6.setText("Fone:");
 
+        txtCpf.setEditable(false);
+
+        txtEmail.setEditable(false);
+
+        txtFone.setEditable(false);
         txtFone.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtFoneActionPerformed(evt);
             }
         });
+
+        txtNasci.setEnabled(false);
 
         rbMasculino.setText("Masculino");
 
@@ -314,6 +324,13 @@ public class ClienteView extends javax.swing.JFrame {
         
         operacao = OperacoesCrud.NOVO.getOperacao();
         
+        btnEditar.setEnabled(false);
+        btnAtualizar.setVisible(false);
+        btnExcluir.setEnabled(false);
+        
+        paneBotoesAcoes.setVisible(true);
+        
+        abrirCampos();
         
     }//GEN-LAST:event_btnNovoActionPerformed
 
@@ -402,5 +419,12 @@ public class ClienteView extends javax.swing.JFrame {
             
         }
         
+    }
+    private void abrirCampos(){
+        txtNome.setEditable(true);
+        txtEmail.setEditable(true);
+        txtCpf.setEditable(true);
+        txtFone.setEditable(true);
+        txtNasci.setEnabled(true);
     }
 }
