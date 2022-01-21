@@ -5,6 +5,8 @@
  */
 package br.com.adson.view;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author adson
@@ -39,10 +41,20 @@ public class SistemaView extends javax.swing.JFrame {
 
         btnCardCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/adson/img/cliente.png"))); // NOI18N
         btnCardCliente.setText("Clientes");
+        btnCardCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCardClienteActionPerformed(evt);
+            }
+        });
 
         jMenu1.setText("Cadastros");
 
         menuCadcliente.setText("Cliente");
+        menuCadcliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuCadclienteActionPerformed(evt);
+            }
+        });
         jMenu1.add(menuCadcliente);
 
         jMenuBar1.add(jMenu1);
@@ -50,11 +62,21 @@ public class SistemaView extends javax.swing.JFrame {
         jMenu2.setText("Pesquisar");
 
         menuPesqcCliente.setText("Cliente");
+        menuPesqcCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuPesqcClienteActionPerformed(evt);
+            }
+        });
         jMenu2.add(menuPesqcCliente);
 
         jMenuBar1.add(jMenu2);
 
         menuSair.setText("Sair");
+        menuSair.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuSairActionPerformed(evt);
+            }
+        });
         jMenuBar1.add(menuSair);
 
         setJMenuBar(jMenuBar1);
@@ -78,6 +100,22 @@ public class SistemaView extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnCardClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCardClienteActionPerformed
+        new ClienteView().show();
+    }//GEN-LAST:event_btnCardClienteActionPerformed
+
+    private void menuCadclienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuCadclienteActionPerformed
+        new ClienteView().show();
+    }//GEN-LAST:event_menuCadclienteActionPerformed
+
+    private void menuPesqcClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuPesqcClienteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_menuPesqcClienteActionPerformed
+
+    private void menuSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuSairActionPerformed
+        
+    }//GEN-LAST:event_menuSairActionPerformed
 
     /**
      * @param args the command line arguments

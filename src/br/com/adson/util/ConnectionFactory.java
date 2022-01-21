@@ -21,8 +21,6 @@ public class ConnectionFactory {
         try {
             conexao = DriverManager.getConnection(urlBase, usuario, senha);
             
-          /*  if(conexao != null)
-                System.out.println("Conexão com o banco de dados realizada com sucesso!");*/
             
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Erro na conexão: "+e.getMessage(), "Erro", 

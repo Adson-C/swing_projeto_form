@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -118,10 +119,10 @@ public class LoginView extends javax.swing.JFrame {
             
                 if(l.getLogin().equalsIgnoreCase(login) 
                  && l.getSenha().equalsIgnoreCase(new String(senha))) {
-                    System.out.print("Login Validado!");
                     
                     this.dispose(); // desaperce a tela de login
                     
+                    // redireciona para tela do sitema
                     SistemaView s = new SistemaView();
                     s.setVisible(true);
                     s.setLocationRelativeTo(null);
@@ -129,7 +130,7 @@ public class LoginView extends javax.swing.JFrame {
         }
             
         } catch (SQLException ex) {
-            Logger.getLogger(LoginView.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
             // TODO fazer JOptionPane
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(LoginView.class.getName()).log(Level.SEVERE, null, ex);
