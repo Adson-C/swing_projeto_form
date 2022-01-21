@@ -22,7 +22,7 @@ public class TesteJoptionP {
         JOptionPane.showMessageDialog(null, "Nome Completo: " + nomeCompleto +"\n Idade: " + idade,
                 "Informação", JOptionPane.INFORMATION_MESSAGE);*/
     
-    /* ConnectionFactory.getConexao(); */
+    ConnectionFactory.getConexao();
     }
     
 }

@@ -18,11 +18,11 @@ public class LoginDao {
         Connection conn = ConnectionFactory.getConexao();
         PreparedStatement ps = conn.prepareStatement(sql);
         
-        ResultSet rs = ps.executeQuery();
-        while(rs.next()) {
+        ResultSet resultSet = ps.executeQuery();
+        while(resultSet.next()) {
             Login login = new Login();
-            login.setLogin(rs.getString("login_nome"));
-            login.setSenha(rs.getString("login_senha"));
+            login.setLogin(resultSet.getString("login_nome"));
+            login.setSenha(resultSet.getString("login_senha"));
             
             loginAux.add(login);
         }

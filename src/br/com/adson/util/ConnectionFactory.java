@@ -10,7 +10,7 @@ import javax.swing.JOptionPane;
 
 public class ConnectionFactory {
     
-    private static final String urlBase = "jdbc:mysql://@localhost:3306";
+    private static final String urlBase = "jdbc:mysql://@localhost:3306/db_cliente";
     private static final String usuario = "root";
     private static final String senha = "123456";
     

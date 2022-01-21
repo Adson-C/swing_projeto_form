@@ -5,6 +5,13 @@
  */
 package br.com.adson.view;
 
+import br.com.adson.controller.LoginController;
+import br.com.adson.model.Login;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author adson
@@ -99,7 +106,34 @@ public class LoginView extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLimparPropertyChange
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-        // TODO add your handling code here:
+        
+        String login = txtLogin.getText();
+        char[] senha = txtSenha.getPassword();
+        
+        try {    
+            LoginController lc = new LoginController();
+            ArrayList<Login> loginList = lc.buscarLoginSenha();
+            
+            for(Login l : loginList) {
+            
+                if(l.getLogin().equalsIgnoreCase(login) 
+                 && l.getSenha().equalsIgnoreCase(new String(senha))) {
+                    System.out.print("Login Validado!");
+                    
+                    this.dispose(); // desaperce a tela de login
+                    
+                    SistemaView s = new SistemaView();
+                    s.setVisible(true);
+                    s.setLocationRelativeTo(null);
+                }
+        }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(LoginView.class.getName()).log(Level.SEVERE, null, ex);
+            // TODO fazer JOptionPane
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(LoginView.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnLoginActionPerformed
 
     /**
