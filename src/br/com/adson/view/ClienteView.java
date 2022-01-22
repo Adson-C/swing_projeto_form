@@ -7,12 +7,17 @@ package br.com.adson.view;
 
 import br.com.adson.controller.ClienteController;
 import br.com.adson.model.Cliente;
+import br.com.adson.util.ConnectionFactory;
 import br.com.adson.util.OperacoesCrud;
+import java.sql.Connection;
 import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 
@@ -26,6 +31,9 @@ public class ClienteView extends javax.swing.JFrame {
         initComponents();
         
         paneBotoesAcoes.setVisible(false);
+        
+        carregarDadosTabela();
+        
         limparCampos();
          
     }
@@ -292,10 +300,7 @@ public class ClienteView extends javax.swing.JFrame {
 
         tabelaCliente.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+
             },
             new String [] {
                 "Código", "Nome", "CPF", "Email", "Sexo", "Data de Nasci", "Fone"
@@ -312,10 +317,8 @@ public class ClienteView extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 86, Short.MAX_VALUE))
+                .addContainerGap(343, Short.MAX_VALUE))
+            .addComponent(jScrollPane1)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -324,9 +327,9 @@ public class ClienteView extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(102, 102, 102))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(135, 135, 135))
         );
 
         pack();
@@ -505,4 +508,52 @@ public class ClienteView extends javax.swing.JFrame {
         }
         return sexo;
     }
+    
+    private void carregarDadosTabela() {
+        String sql = "select cli_cod, cli_nome, cli_cpf, cli_email, cli_sexo, "
+                + "cli_dt_nasc, cli_fone  from cliente order by cli_cod";
+        
+        try {
+            
+            Connection conn = ConnectionFactory.getConexao();
+            PreparedStatement ps = conn.prepareStatement(sql);
+            
+            ResultSet rs = ps.executeQuery();
+            
+            tabelaCliente.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+            tabelaCliente.getColumnModel().getColumn(0).setPreferredWidth(50);
+            tabelaCliente.getColumnModel().getColumn(1).setPreferredWidth(180);
+            tabelaCliente.getColumnModel().getColumn(2).setPreferredWidth(100);
+            tabelaCliente.getColumnModel().getColumn(3).setPreferredWidth(180);
+            tabelaCliente.getColumnModel().getColumn(4).setPreferredWidth(70);
+            tabelaCliente.getColumnModel().getColumn(5).setPreferredWidth(80);
+            tabelaCliente.getColumnModel().getColumn(6).setPreferredWidth(100);
+            
+            model = (DefaultTableModel) tabelaCliente.getModel();
+            
+            while(rs.next()) {
+                Integer rsCodigo = rs.getInt("cli_cod");
+                String rsNome = rs.getString("cli_nome");
+                String rsCpf = rs.getString("cli_cpf");
+                String rsEmail = rs.getString("cli_email");
+                String rsSexo = rs.getString("cli_sexo");
+                if(rs.equals("M")) {
+                    rsSexo = "Masculino";
+                }else {
+                    rsSexo = "Feminino";
+                }
+                
+                Date rsNasc = rs.getDate("cli_dt_nasc");
+                String rsFone = rs.getString("cli_fone");
+                
+                // preenche os dados na Jtable que estão retornando do banco de dados
+                
+                model.addRow(new Object[]{rsCodigo, rsNome,rsCpf,rsEmail,rsSexo,rsNasc,rsFone});
+            }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
 }
