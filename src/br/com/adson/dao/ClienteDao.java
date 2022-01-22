@@ -5,6 +5,7 @@ import br.com.adson.model.Cliente;
 import br.com.adson.util.ConnectionFactory;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
@@ -61,8 +62,31 @@ public class ClienteDao extends Dao<Cliente> {
     }
 
     @Override
-    public Integer getCodigo(Cliente pojo) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Integer getCodigo(Cliente cliente) throws SQLException {
+        
+        PreparedStatement ps = null;
+        Integer codigo = null;
+        
+        String sql = "select cli_cod from cliente where cli_cpf = ?;";
+        
+        try {
+            Connection conn = this.obterConexao();
+            
+            ps = conn.prepareCall(sql);
+            
+            ps.setString(1, cliente.getCpf());
+            
+            ResultSet rs = ps.executeQuery();
+            
+            if (rs.next()) {
+                cliente.setCodigo(rs.getInt("cli_cod"));
+                codigo = cliente.getCodigo();
+            }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return codigo;
     }
 
 }

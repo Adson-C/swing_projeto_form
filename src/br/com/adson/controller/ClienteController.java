@@ -34,7 +34,10 @@ public class ClienteController extends Dao<Cliente>{
 
     @Override
     public Integer getCodigo(Cliente cliente) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       
+        ClienteDao clienteDao = new ClienteDao();
+        
+        return clienteDao.getCodigo(cliente);
     }
-
-}
+    
+  }

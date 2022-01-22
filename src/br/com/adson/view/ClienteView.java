@@ -13,18 +13,15 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author adson
- */
+
 public class ClienteView extends javax.swing.JFrame {
 
     public Integer operacao;
     private String sexo;
-    /**
-     * Creates new form ClienteView
-     */
+    private  DefaultTableModel model;
+    
     public ClienteView() {
         initComponents();
         
@@ -465,6 +462,9 @@ public class ClienteView extends javax.swing.JFrame {
 
             if(operacao == OperacoesCrud.NOVO.getOperacao()) {
                 clienteController.cadastrar(cliente);
+                
+                model.addRow(new Object[]{clienteController.getCodigo(cliente), 
+                nome, cpf, email, sexo, cliente.getNascimento(), fone});
                 
                 JOptionPane.showMessageDialog(null, "O cliente "  +cliente.getNome() + 
                         " foi criado com Sucesso!","Sucesso", JOptionPane.INFORMATION_MESSAGE);
