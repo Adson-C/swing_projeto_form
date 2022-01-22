@@ -9,6 +9,7 @@ import br.com.adson.controller.ClienteController;
 import br.com.adson.model.Cliente;
 import br.com.adson.util.ConnectionFactory;
 import br.com.adson.util.OperacoesCrud;
+import br.com.adson.util.Util;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -18,6 +19,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
 
@@ -26,6 +28,11 @@ public class ClienteView extends javax.swing.JFrame {
     public Integer operacao;
     private String sexo;
     private  DefaultTableModel model;
+    
+    // variaveis em tempo de execução
+    private Integer codigo;
+    private String nomeCliente;
+    
     
     public ClienteView() {
         initComponents();
@@ -306,6 +313,11 @@ public class ClienteView extends javax.swing.JFrame {
                 "Código", "Nome", "CPF", "Email", "Sexo", "Data de Nasci", "Fone"
             }
         ));
+        tabelaCliente.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabelaClienteMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tabelaCliente);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -377,6 +389,32 @@ public class ClienteView extends javax.swing.JFrame {
         rbMasculino.setSelected(false);
         sexo = rbFeminino.getText();
     }//GEN-LAST:event_rbFemininoActionPerformed
+
+    private void tabelaClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaClienteMouseClicked
+        // recuperar as informações da tabela
+        ListSelectionModel tableSelectionModel = tabelaCliente.getSelectionModel();
+        
+        // refrech - limpeza do cache da tabela
+        tabelaCliente.setSelectionModel(tableSelectionModel);
+        
+        // armazena linha selecionadas nas variaveis para utilizar em atualizar e excluir
+        setCodigo(Integer.parseInt(tabelaCliente.getValueAt(tabelaCliente.getSelectedRow(), 0).toString()));
+        setNomeCliente(tabelaCliente.getValueAt(tabelaCliente.getSelectedRow(), 1).toString());
+        
+        String rowCpf = tabelaCliente.getValueAt(tabelaCliente.getSelectedRow(), 2).toString();
+        String rowEmail = tabelaCliente.getValueAt(tabelaCliente.getSelectedRow(), 3).toString();
+        String rowSexo = tabelaCliente.getValueAt(tabelaCliente.getSelectedRow(), 4).toString();
+        String rowFone = tabelaCliente.getValueAt(tabelaCliente.getSelectedRow(), 6).toString();
+        getSexoSecionado(rowSexo);
+         
+        txtNome.setText(getNomeCliente());
+        txtCpf.setText(rowCpf);
+        txtEmail.setText(rowEmail);
+       
+        txtNasci.setDate(Util.converterToDate(tabelaCliente.getValueAt(tabelaCliente.getSelectedRow(), 5).toString()));
+        txtFone.setText(rowFone);
+        
+    }//GEN-LAST:event_tabelaClienteMouseClicked
 
     
     public static void main(String args[]) {
@@ -548,12 +586,40 @@ public class ClienteView extends javax.swing.JFrame {
                 
                 // preenche os dados na Jtable que estão retornando do banco de dados
                 
-                model.addRow(new Object[]{rsCodigo, rsNome,rsCpf,rsEmail,rsSexo,rsNasc,rsFone});
+                model.addRow(new Object[]{rsCodigo, rsNome,rsCpf,rsEmail,rsSexo,Util.converterToString(rsNasc),rsFone});
             }
             
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+    public Integer getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(Integer codigo) {
+        this.codigo = codigo;
+    }
+
+    public String getNomeCliente() {
+        return nomeCliente;
+    }
+
+    public void setNomeCliente(String nomeCliente) {
+        this.nomeCliente = nomeCliente;
+    }
+
+    private void getSexoSecionado(String rowSexo) {
+        if(rowSexo.equals("Masculino")) {
+            rbMasculino.setSelected(true);
+            rbFeminino.setSelected(false);
+        }else {
+            rbMasculino.setSelected(false);
+            rbFeminino.setSelected(true);
+        }
+        
+    }
+    
     
 }
