@@ -100,6 +100,11 @@ public class ClienteView extends javax.swing.JFrame {
         });
 
         btnExcluir.setText("Excluir");
+        btnExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcluirActionPerformed(evt);
+            }
+        });
 
         bntSair.setText("Sair");
 
@@ -468,6 +473,24 @@ public class ClienteView extends javax.swing.JFrame {
         fecharCampos();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
+    private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
+        
+        if(tabelaCliente.getSelectedRow() == -1) {
+            if(tabelaCliente.getRowCount() == 0) {
+                JOptionPane.showMessageDialog(null, "A tabela esta vazia!");
+            }else {
+                JOptionPane.showMessageDialog(null, "Deve ser selecionado um cliente!");
+            }
+        }else {
+            // Quando Selecionar um Cliente
+              
+            excluirDadosBD();
+            
+            limparCampos();
+        }
+        
+    }//GEN-LAST:event_btnExcluirActionPerformed
+
     
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -706,6 +729,34 @@ public class ClienteView extends javax.swing.JFrame {
         rbFeminino.setEnabled(false);
         
     }
-    
-    
+
+    private void excluirDadosBD() {
+      
+        String msg = "Deletar o cliente: " + getNomeCliente() + " ? ";
+        int opcaoEscolhida = JOptionPane.showConfirmDialog(null, msg, "Exclusão", JOptionPane.YES_NO_OPTION);
+        if(opcaoEscolhida == JOptionPane.YES_OPTION) {
+            Cliente cliente = new Cliente();
+            cliente.setCodigo(getCodigo());
+        
+        try {
+            ClienteController clienteController = new ClienteController();
+            clienteController.excluir(cliente);
+            
+            // remover a linha da tabela selecionada 
+            model.removeRow(tabelaCliente.getSelectedRow());
+            
+            JOptionPane.showMessageDialog(null, "O cliente "  + getCodigo() + " - " + getNomeCliente() +
+                        " : foi excluido com Sucesso!","Sucesso", JOptionPane.INFORMATION_MESSAGE);
+            
+        } catch (SQLException e) {
+         
+            e.printStackTrace();
+            
+        }catch(Exception e2) {
+            e2.printStackTrace();
+        }
+            
+        }
+        
+    }
 }
