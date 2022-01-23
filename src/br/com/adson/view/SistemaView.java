@@ -38,6 +38,7 @@ public class SistemaView extends javax.swing.JFrame {
         menuSair = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Tela Principal");
 
         btnCardCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/adson/img/cliente.png"))); // NOI18N
         btnCardCliente.setText("Clientes");
@@ -62,6 +63,11 @@ public class SistemaView extends javax.swing.JFrame {
         jMenu2.setText("Pesquisar");
 
         menuPesqcCliente.setText("Cliente");
+        menuPesqcCliente.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                menuPesqcClienteMouseClicked(evt);
+            }
+        });
         menuPesqcCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 menuPesqcClienteActionPerformed(evt);
@@ -72,6 +78,11 @@ public class SistemaView extends javax.swing.JFrame {
         jMenuBar1.add(jMenu2);
 
         menuSair.setText("Sair");
+        menuSair.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                menuSairMouseClicked(evt);
+            }
+        });
         menuSair.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 menuSairActionPerformed(evt);
@@ -110,12 +121,26 @@ public class SistemaView extends javax.swing.JFrame {
     }//GEN-LAST:event_menuCadclienteActionPerformed
 
     private void menuPesqcClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuPesqcClienteActionPerformed
-        // TODO add your handling code here:
+        new PequisaView().show();
     }//GEN-LAST:event_menuPesqcClienteActionPerformed
 
     private void menuSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuSairActionPerformed
         
     }//GEN-LAST:event_menuSairActionPerformed
+
+    private void menuPesqcClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuPesqcClienteMouseClicked
+        
+    }//GEN-LAST:event_menuPesqcClienteMouseClicked
+
+    private void menuSairMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuSairMouseClicked
+        String msg = "Deseja sair do sistema? ";
+        
+        int opccaoEscolhaida = JOptionPane.showConfirmDialog(null, msg, "Sistema", JOptionPane.YES_NO_OPTION);
+        
+        if(opccaoEscolhaida == JOptionPane.YES_OPTION) {
+            System.exit(0);
+        }
+    }//GEN-LAST:event_menuSairMouseClicked
 
     /**
      * @param args the command line arguments

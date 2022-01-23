@@ -82,6 +82,7 @@ public class ClienteView extends javax.swing.JFrame {
         tabelaCliente = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Cadastro de Cilente");
 
         painelBtnAcoesPrincipais.setBorder(javax.swing.BorderFactory.createTitledBorder("acões"));
 
@@ -107,6 +108,11 @@ public class ClienteView extends javax.swing.JFrame {
         });
 
         bntSair.setText("Sair");
+        bntSair.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                bntSairMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout painelBtnAcoesPrincipaisLayout = new javax.swing.GroupLayout(painelBtnAcoesPrincipais);
         painelBtnAcoesPrincipais.setLayout(painelBtnAcoesPrincipaisLayout);
@@ -490,6 +496,16 @@ public class ClienteView extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_btnExcluirActionPerformed
+
+    private void bntSairMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bntSairMouseClicked
+       String msg = "Deseja sair do sistema? ";
+        
+        int opccaoEscolhaida = JOptionPane.showConfirmDialog(null, msg, "Sistema", JOptionPane.YES_NO_OPTION);
+        
+        if(opccaoEscolhaida == JOptionPane.YES_OPTION) {
+            System.exit(0);
+        }
+    }//GEN-LAST:event_bntSairMouseClicked
 
     
     public static void main(String args[]) {
