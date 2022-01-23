@@ -389,6 +389,24 @@ public class ClienteView extends javax.swing.JFrame {
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         
         operacao = OperacoesCrud.EDITAR.getOperacao();
+        
+        if(tabelaCliente.getSelectedRow() == -1) {
+            if(tabelaCliente.getRowCount() == 0) {
+                JOptionPane.showMessageDialog(null, "A tabela esta vazia!");
+            }else {
+                JOptionPane.showMessageDialog(null, "Deve ser selecionado um cliente!");
+            }
+        }else {
+            // Quando Selecionar um Cliente
+            btnExcluir.setEnabled(false);
+            btnNovo.setEnabled(false);
+            paneBotoesAcoes.setVisible(true);
+            btnSalvar.setVisible(false);
+            btnAtualizar.setEnabled(true);
+            btnCancelar.setEnabled(true);
+            
+            abrirCampos();
+        }
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
@@ -397,7 +415,10 @@ public class ClienteView extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void btnAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtualizarActionPerformed
+       
         gravarAtualizarDados();
+        
+        
     }//GEN-LAST:event_btnAtualizarActionPerformed
 
     private void rbMasculinoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbMasculinoActionPerformed
@@ -544,6 +565,22 @@ public class ClienteView extends javax.swing.JFrame {
                 limparCampos();
             
             }else if(operacao == OperacoesCrud.EDITAR.getOperacao()) {
+                
+                cliente.setCodigo(getCodigo());
+                
+                // chamada do controller  para realizar a persitência
+                clienteController.atualizar(cliente);
+                
+                // recuperar informações inseridas no campos e atualizar linhas da tabela
+                model.setValueAt(nome, tabelaCliente.getSelectedRow(), 1);
+                model.setValueAt(cpf, tabelaCliente.getSelectedRow(), 2);
+                model.setValueAt(email, tabelaCliente.getSelectedRow(), 3);
+                model.setValueAt(sexo, tabelaCliente.getSelectedRow(), 4);
+                model.setValueAt(Util.converterToString(dateNasc), tabelaCliente.getSelectedRow(), 5);
+                model.setValueAt(fone, tabelaCliente.getSelectedRow(), 6);
+                
+                JOptionPane.showMessageDialog(null, "O cliente "  +cliente.getNome() + 
+                        " foi atualizado com Sucesso!","Sucesso", JOptionPane.INFORMATION_MESSAGE);
             
             }
         } catch (SQLException ex) {
